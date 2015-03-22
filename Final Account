@@ -1,0 +1,209 @@
+import java.util.Scanner;
+public class Account{
+	
+	private int id = 0;//id
+	private double balance = 0;//balance
+	private double annualInterestRate = 0;//rate for year
+	private java.util.Date dateCreated;//date
+	
+	//no-arg constructor to define date
+	Account(){
+		dateCreated = new java.util.Date();
+	}
+	
+	//constructor with args to define date, id, balance 
+	Account(int id,double balance){
+		dateCreated = new java.util.Date();
+		this.id = id;
+		this.balance = balance;
+	}
+	
+	//a method to set id 
+	void setId(int id){
+		this.id = id;
+	}
+	
+	//a method to set balance
+	void setBalance(double balance){
+		this.balance = balance;
+	}
+	
+	//a method to get id
+	int getId(){
+		return id;
+	}
+	
+	//a method to get balance
+	double getBalance(){
+		return balance;
+	}
+	
+	//a method to get date
+	java.util.Date getDateCreated(){
+		return dateCreated;
+	}
+	
+	//a method to set the rate for year
+	void setAnnualInterestRate(){
+		annualInterestRate = 4.5;
+	}
+	
+	//a method to get the rate for year
+	double getAnnualInterestRate(){
+		return annualInterestRate;
+	}
+	
+	//a method to take money
+	void withdraw(double takeMoney){
+		balance = balance - takeMoney;
+	}
+	
+	//a method to store money
+	void depoist(double storeMoney){
+		balance = balance + storeMoney;
+	}
+	
+	//a method to get monthly rate
+	double getMonthlyInterestRate(){
+		return annualInterestRate / 12;
+	}
+	
+	//a method to get monthly interest
+	double getMonthlyInterest(){
+		return balance * getMonthlyInterestRate() / 100;
+	}
+	
+	//a method to print the result
+	public String toString(){
+		return "Today is " + getDateCreated() + ".\nYou have $" + (int)getBalance() + " now.\nYour monthly interest rate is " + getMonthlyInterestRate() + "%\nYour monthly interest is " + getMonthlyInterest();
+	}
+	
+	
+	public static void main(String[] args){
+		//create an object to savingAccount 
+		SavingAccount savingAccount = new SavingAccount();
+		savingAccount.saving();
+		System.out.println(savingAccount.toString());
+		//create an object to checkingAccount
+		CheckingAccount checkingAccount = new CheckingAccount();
+		checkingAccount.checking();
+		System.out.println(checkingAccount.toString());
+		
+	}
+}
+
+class SavingAccount extends Account {
+
+	
+	private int id;//id
+	private double balance;//balance
+	private double takeMoney = 0;//takeMoney
+	private double storeMoney;//storeMoney
+	//no-arg constructor to call it's super class
+	SavingAccount(){
+		super();
+	}
+	//constructor with args to call it's super class
+	SavingAccount(int id, double balance){
+		super(id,balance);
+	}
+	
+	public void saving(){
+		Scanner input = new Scanner(System.in);
+		//enter the savingAccount's id
+		System.out.print("Please enter this saving account's ID: ");
+		id = input.nextInt();
+		super.setId(id);
+		//set balance
+		setBalance(20000);
+		System.out.println("This saving account have $" + (int)getBalance() + " at first.");
+		//set the rate for year
+		super.setAnnualInterestRate();
+		
+		//take money's process
+		do{
+		System.out.print("How much money you want to take ?");
+		//enter the money you want to take
+		takeMoney = input.nextDouble();
+		
+		//you can't take more than 20000
+		if(takeMoney > 20000)
+			System.out.print("You can not take more than you have! \nPlease enter again. ");	
+		}while(takeMoney > 20000);//if you take more than 20000 you must to take again
+		
+		super.withdraw(takeMoney);//calculate balance
+		
+		//store money's process
+		System.out.print("How much money you want to store ?");
+		//enter the money you want to store
+		storeMoney = input.nextDouble();
+		super.depoist(storeMoney);//calculate balance
+		
+		System.out.println();
+		
+		
+	}
+	//a method to print result
+	public String toString(){
+		return super.toString();
+	}
+}
+
+class CheckingAccount extends Account {
+
+	private int id;//id
+	private double balance;//balance
+	private double takeMoney;//takeMoney
+	private double storeMoney;//storeMoney
+	//no-arg constructor to call it's super class
+	CheckingAccount(){
+		super();
+	}
+	
+	//constructor with args to call it's super class
+	CheckingAccount(int id, double balance){
+		super(id,balance);
+	}
+	
+	public void checking(){
+		Scanner input = new Scanner(System.in);
+		
+		System.out.print("\n\nPlease enter this checking account's ID: ");
+		id = input.nextInt();
+		super.setId(id);
+		
+		setBalance(20000);
+		System.out.println("This checking account have $" + (int)getBalance() + " at first.");
+		
+		super.setAnnualInterestRate();
+		
+		
+		System.out.print("How much money you want to take ?");
+		takeMoney = input.nextDouble();
+		//check can take more than 20000 but you need to store back
+		if(takeMoney > 20000)
+			System.out.print("You need to store money to balance this check.\n");	
+		
+		super.withdraw(takeMoney);
+		
+		
+		do{
+		System.out.print("How much money you want to store ?");
+		storeMoney = input.nextDouble();
+		//if you don't store enough you need to keep store
+		if((super.getBalance() + storeMoney) < 0)
+			System.out.println("You need to store more money to balance this check.");
+		
+		super.depoist(storeMoney);
+		
+		}while(super.getBalance() < 0);
+		
+		System.out.println();
+		
+		
+	}
+	
+	public String toString(){
+		return super.toString();
+	}
+}
