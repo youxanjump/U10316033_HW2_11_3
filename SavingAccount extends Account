@@ -1,0 +1,56 @@
+class SavingAccount extends Account {
+
+	
+	private int id;//id
+	private double balance;//balance
+	private double takeMoney = 0;//takeMoney
+	private double storeMoney;//storeMoney
+	//no-arg constructor to call it's super class
+	SavingAccount(){
+		super();
+	}
+	//constructor with args to call it's super class
+	SavingAccount(int id, double balance){
+		super(id,balance);
+	}
+	
+	public void saving(){
+		Scanner input = new Scanner(System.in);
+		//enter the savingAccount's id
+		System.out.print("Please enter this saving account's ID: ");
+		id = input.nextInt();
+		super.setId(id);
+		//set balance
+		setBalance(20000);
+		System.out.println("This saving account have $" + (int)getBalance() + " at first.");
+		//set the rate for year
+		super.setAnnualInterestRate();
+		
+		//take money's process
+		do{
+		System.out.print("How much money you want to take ?");
+		//enter the money you want to take
+		takeMoney = input.nextDouble();
+		
+		//you can't take more than 20000
+		if(takeMoney > 20000)
+			System.out.print("You can not take more than you have! \nPlease enter again. ");	
+		}while(takeMoney > 20000);//if you take more than 20000 you must to take again
+		
+		super.withdraw(takeMoney);//calculate balance
+		
+		//store money's process
+		System.out.print("How much money you want to store ?");
+		//enter the money you want to store
+		storeMoney = input.nextDouble();
+		super.depoist(storeMoney);//calculate balance
+		
+		System.out.println();
+		
+		
+	}
+	//a method to print result
+	public String toString(){
+		return super.toString();
+	}
+}
