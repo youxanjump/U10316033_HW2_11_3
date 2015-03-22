@@ -1,0 +1,58 @@
+class CheckingAccount extends Account {
+
+	private int id;//id
+	private double balance;//balance
+	private double takeMoney;//takeMoney
+	private double storeMoney;//storeMoney
+	//no-arg constructor to call it's super class
+	CheckingAccount(){
+		super();
+	}
+	
+	//constructor with args to call it's super class
+	CheckingAccount(int id, double balance){
+		super(id,balance);
+	}
+	
+	public void checking(){
+		Scanner input = new Scanner(System.in);
+		
+		System.out.print("\n\nPlease enter this checking account's ID: ");
+		id = input.nextInt();
+		super.setId(id);
+		
+		setBalance(20000);
+		System.out.println("This checking account have $" + (int)getBalance() + " at first.");
+		
+		super.setAnnualInterestRate();
+		
+		
+		System.out.print("How much money you want to take ?");
+		takeMoney = input.nextDouble();
+		//check can take more than 20000 but you need to store back
+		if(takeMoney > 20000)
+			System.out.print("You need to store money to balance this check.\n");	
+		
+		super.withdraw(takeMoney);
+		
+		
+		do{
+		System.out.print("How much money you want to store ?");
+		storeMoney = input.nextDouble();
+		//if you don't store enough you need to keep store
+		if((super.getBalance() + storeMoney) < 0)
+			System.out.println("You need to store more money to balance this check.");
+		
+		super.depoist(storeMoney);
+		
+		}while(super.getBalance() < 0);
+		
+		System.out.println();
+		
+		
+	}
+	
+	public String toString(){
+		return super.toString();
+	}
+}
